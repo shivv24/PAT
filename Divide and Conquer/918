@@ -1,0 +1,16 @@
+class Solution:
+    def maxSubarraySumCircular(self, nums: List[int]) -> int:
+        #kadane's algorithm
+        def kadane(nums):
+            maxcur=maxglobal=nums[0]
+            for i in range(1,len(nums)):
+                maxcur=max(nums[i],maxcur+nums[i])
+                maxglobal=max(maxcur,maxglobal)
+            return maxglobal
+        #maximum sum of non-circular subarray
+        maxlinear=kadane(nums)
+        #circular max subarray
+        totalsum=sum(nums)
+        maxwrap=totalsum+kadane([-x for x in nums])
+        #comparision
+        return max(maxlinear,maxwrap) if maxwrap!=0 else maxlinear
